@@ -1,0 +1,26 @@
+{
+    "name": "bavarianlabs/omnipay-moip",
+    "description": "Integração MOIP utilizando a biblioteca Omnipay",
+    "minimum-stability": "dev",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jorge Vahldick",
+            "email": "email@email.com"
+        },
+        {
+            "name": "Luciano Júnior",
+            "email": "luciano@lucianojr.com.br"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.2",
+        "omnipay/common": "~2.0"
+    },
+    "require-dev": {
+        "omnipay/tests": "~2.0"
+    },
+    "psr-4": {
+        "Bavarianlabs\\Omnipay\\Moip\\": "src//"
+    }
+}
