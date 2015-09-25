@@ -20,7 +20,10 @@
     "require-dev": {
         "omnipay/tests": "~2.0"
     },
-    "psr-4": {
-        "Bavarianlabs\\Omnipay\\Moip\\": "src//"
+    "autoload": {
+        "psr-4": {
+            "Bavarianlabs\\Omnipay\\Moip\\": "src/"
+        }
     }
+
 }
