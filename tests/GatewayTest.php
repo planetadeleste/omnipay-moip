@@ -1,15 +1,28 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: luciano
- * Date: 24/09/15
- * Time: 21:23
- */
 
-namespace Bavarianlabs\Omnipay\Test\Moip;
+namespace Bavarianlabs\Omnipay\Tests;
 
 
-class GatewayTest extends \PHPUnit_Framework_TestCase
+use Bavarianlabs\Omnipay\Moip\Gateway;
+use Omnipay\Tests\GatewayTestCase;
+
+class GatewayTest extends GatewayTestCase
 {
 
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->gateway = new Gateway();
+    }
+
+    public function testShouldBeInstanceOfGateway()
+    {
+        $this->assertInstanceOf('Bavarianlabs\Omnipay\Moip\Gateway', $this->gateway);
+    }
+
+    public function testShouldBeReturnGatewayName()
+    {
+        $this->assertNotEquals("MoIP", $this->getName(), "The gateway name do not matter with the MoIP");
+    }
 }
