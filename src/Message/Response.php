@@ -1,6 +1,6 @@
 <?php
 
-namespace Bavarianlabs\Omnipay\Message;
+namespace Bavarianlabs\Omnipay\Moip\Message;
 
 
 use Omnipay\Common\Message\AbstractResponse;

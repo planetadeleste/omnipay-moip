@@ -1,33 +1,53 @@
 <?php
 
-namespace Bavarianlabs\Omnipay\Message;
+namespace Bavarianlabs\Omnipay\Moip\Message;
 
 
 use Omnipay\Common\Message\AbstractRequest as BaseAbstractRequest;
-use Omnipay\Common\Message\ResponseInterface;
 
-class AbstractRequest extends BaseAbstractRequest
+abstract class AbstractRequest extends BaseAbstractRequest
 {
+    /**
+     * Live Endpoint URL
+     *
+     * @var string URL
+     */
+    protected $liveEndpoint = 'https://www.moip.com.br';
 
     /**
-     * Get the raw data array for this message. The format of this varies from gateway to
-     * gateway, but will usually be either an associative array, or a SimpleXMLElement.
+     * Test Endpoint URL
      *
-     * @return mixed
+     * @var string URL
      */
-    public function getData()
+    protected $testEndpoint = 'https://desenvolvedor.moip.com.br/sandbox';
+
+    /**
+     * Verify environment of the service payment and return correct endpoint url
+     *
+     * @return string
+     */
+    protected function getEndpoint()
     {
-        // TODO: Implement getData() method.
+        return $this->getTestMode() ? $this->getTestEndpoint() : $this->getLiveEndpoint();
     }
 
     /**
-     * Send the request with specified data
+     * Return production environment url of service
      *
-     * @param  mixed $data The data to send
-     * @return ResponseInterface
+     * @return string
      */
-    public function sendData($data)
+    private function getLiveEndpoint()
     {
-        // TODO: Implement sendData() method.
+        return $this->liveEndpoint;
+    }
+
+    /**
+     * Return test environment url of service
+     *
+     * @return string
+     */
+    private function getTestEndpoint()
+    {
+        return $this->testEndpoint;
     }
 }
