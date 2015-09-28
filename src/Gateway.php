@@ -73,4 +73,15 @@ class Gateway extends AbstractGateway
         return $this->getParameter('apiKey');
     }
 
+    /**
+     * Create request for to consume service
+     *
+     * @param array $parameters
+     * @return \Omnipay\Common\Message\AbstractRequest
+     */
+    public function authorize(array $parameters = array())
+    {
+        return $this->createRequest('\Bavarianlabs\Omnipay\Moip\Message\AuthorizeRequest', $parameters);
+    }
+
 }
