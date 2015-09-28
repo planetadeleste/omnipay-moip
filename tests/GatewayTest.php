@@ -8,7 +8,9 @@ use Omnipay\Tests\GatewayTestCase;
 
 class GatewayTest extends GatewayTestCase
 {
-
+    /**
+     * @var $gateway Gateway
+     */
     protected $gateway;
 
     public function setUp()
@@ -71,6 +73,8 @@ class GatewayTest extends GatewayTestCase
         $this->assertNotEquals($apiKey, $this->gateway->getApiKey(), "The api key set is not the same that passed");
     }
 
+
+
     public function dataProvider()
     {
         return array(
@@ -78,5 +82,11 @@ class GatewayTest extends GatewayTestCase
             array('CBCBCBCBCBCBCBCBCBCBCBCBCBCB'),
             array('ACACACACACACACACACACACACACAC'),
         );
+    }
+
+    public function testAuthorize()
+    {
+        $request = $this->gateway->authorize(array('' => ''));
+        $this->assertInstanceOf('Bavarianlabs\Omnipay\Moip\Message\AuthorizeRequest', $request);
     }
 }

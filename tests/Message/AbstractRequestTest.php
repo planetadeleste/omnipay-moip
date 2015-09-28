@@ -28,4 +28,11 @@ class AbstractRequestTest extends TestCase
 
         $this->assertStringStartsWith('https://www.moip.com.br', $this->request->getEndpoint());
     }
+
+    public function testShouldReturnPostOnGetHttpMethod()
+    {
+        $this->assertEquals('POST', $this->request->getHttpMethod());
+    }
+
+
 }

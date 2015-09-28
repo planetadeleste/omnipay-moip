@@ -21,6 +21,18 @@ abstract class AbstractRequest extends BaseAbstractRequest
      */
     protected $testEndpoint = 'https://desenvolvedor.moip.com.br/sandbox';
 
+    public function sendData($data) {
+        $this->addListener4xxErrors();
+
+        $this->httpRequest = $this->httpClient->createRequest(
+            $this->getHttpMethod(),
+            $this->getEndpoint(),
+            $this->getData()
+        );
+
+        $httpResponse = $this->httpRequest->send();
+    }
+
     /**
      * Verify environment of the service payment and return correct endpoint url
      *
@@ -29,6 +41,18 @@ abstract class AbstractRequest extends BaseAbstractRequest
     protected function getEndpoint()
     {
         return $this->getTestMode() ? $this->getTestEndpoint() : $this->getLiveEndpoint();
+    }
+
+    /**
+     * Get HTTP Method.
+     *
+     * This is nearly always POST but can be over-ridden in sub classes.
+     *
+     * @return string the HTTP method
+     */
+    protected function getHttpMethod()
+    {
+        return 'POST';
     }
 
     /**
@@ -49,5 +73,21 @@ abstract class AbstractRequest extends BaseAbstractRequest
     private function getTestEndpoint()
     {
         return $this->testEndpoint;
+    }
+
+
+    /**
+     * Don't throw exceptions for 4xx errors
+     */
+    private function addListener4xxErrors()
+    {
+        $this->httpClient->getEventDispatcher()->addListener(
+            'request.error',
+            function ($event) {
+                if ($event['response']->isClientError()) {
+                    $event->stopPropagation();
+                }
+            }
+        );
     }
 }
