@@ -1,6 +1,6 @@
 <?php
 
-namespace Bavarianlabs\Omnipay\Moip;
+namespace PlanetaDelEste\Omnipay\Moip;
 
 
 use Omnipay\Common\AbstractGateway;
@@ -81,7 +81,7 @@ class Gateway extends AbstractGateway
      */
     public function authorize(array $parameters = array())
     {
-        return $this->createRequest('\Bavarianlabs\Omnipay\Moip\Message\AuthorizeRequest', $parameters);
+        return $this->createRequest('\PlanetaDelEste\Omnipay\Moip\Message\AuthorizeRequest', $parameters);
     }
 
 }

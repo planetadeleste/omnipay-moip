@@ -1,8 +1,19 @@
 {
-    "name": "bavarianlabs/omnipay-moip",
-    "description": "Integração MOIP utilizando a biblioteca Omnipay",
+    "name": "planetadeleste/omnipay-moip",
+    "description": "MOIP payment gateway driver for the Omnipay 2.x payment processing library",
+    "type": "library",
     "minimum-stability": "dev",
     "license": "MIT",
+    "keywords": [
+        "moip",
+        "wirecardBrazil",
+        "gateway",
+        "merchant",
+        "omnipay",
+        "pay",
+        "payment"
+    ],
+    "homepage": "https://github.com/planetadeleste/omnipay-moip",
     "authors": [
         {
             "name": "Jorge Vahldick",
@@ -11,18 +22,24 @@
         {
             "name": "Luciano Júnior",
             "email": "luciano@lucianojr.com.br"
+        },
+        {
+            "name": "Alvaro Cánepa",
+            "email": "bfpdevel@gmail.com",
+            "homepage": "http://www.planetadeleste.com/"
         }
     ],
     "require": {
         "php": ">=5.3.2",
-        "omnipay/common": "~2.0"
+        "omnipay/common": "~2.3",
+        "moip/moip-sdk-php": "~3.1"
     },
     "require-dev": {
         "omnipay/tests": "~2.0"
     },
     "autoload": {
         "psr-4": {
-            "Bavarianlabs\\Omnipay\\Moip\\": "src/"
+            "PlanetaDelEste\\Omnipay\\Moip\\": "src/"
         }
     }
 

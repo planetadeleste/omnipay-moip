@@ -1,6 +1,6 @@
 <?php
 
-namespace Bavarianlabs\Omnipay\Moip\Message;
+namespace PlanetaDelEste\Omnipay\Moip\Message;
 
 
 use Omnipay\Common\Message\ResponseInterface;

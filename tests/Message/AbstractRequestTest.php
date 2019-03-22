@@ -11,7 +11,7 @@ class AbstractRequestTest extends TestCase
 
     public function setUp()
     {
-        $this->request = Mockery::mock('\Bavarianlabs\Omnipay\Moip\Message\AbstractRequest')->makePartial();
+        $this->request = Mockery::mock('\PlanetaDelEste\Omnipay\Moip\Message\AbstractRequest')->makePartial();
         $this->request->initialize();
     }
 
