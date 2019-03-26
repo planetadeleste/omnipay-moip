@@ -16,7 +16,7 @@ use Omnipay\Common\Message\RequestInterface;
  * @method RequestInterface updateCard(array $options = [])
  * @method RequestInterface deleteCard(array $options = [])
  */
-class MoipGateway extends AbstractGateway
+class Gateway extends AbstractGateway
 {
     public function getDefaultParameters()
     {
