@@ -7,17 +7,25 @@ use Omnipay\Common\AbstractGateway;
 use Omnipay\Common\Message\RequestInterface;
 
 /**
- * @method RequestInterface completeAuthorize(array $options = array())
- * @method RequestInterface capture(array $options = array())
- * @method RequestInterface completePurchase(array $options = array())
- * @method RequestInterface refund(array $options = array())
- * @method RequestInterface void(array $options = array())
- * @method RequestInterface createCard(array $options = array())
- * @method RequestInterface updateCard(array $options = array())
- * @method RequestInterface deleteCard(array $options = array())
+ * @method RequestInterface completeAuthorize(array $options = [])
+ * @method RequestInterface capture(array $options = [])
+ * @method RequestInterface completePurchase(array $options = [])
+ * @method RequestInterface refund(array $options = [])
+ * @method RequestInterface void(array $options = [])
+ * @method RequestInterface createCard(array $options = [])
+ * @method RequestInterface updateCard(array $options = [])
+ * @method RequestInterface deleteCard(array $options = [])
  */
-class Gateway extends AbstractGateway
+class MoipGateway extends AbstractGateway
 {
+    public function getDefaultParameters()
+    {
+        return [
+            'token'    => '',
+            'apiKey'   => '',
+            'testMode' => false,
+        ];
+    }
 
     /**
      * Get gateway display name
