@@ -39,7 +39,7 @@
     },
     "autoload": {
         "psr-4": {
-            "PlanetaDelEste\\Omnipay\\Moip\\": "src/"
+            "Omnipay\\Moip\\": "src/"
         }
     }
 

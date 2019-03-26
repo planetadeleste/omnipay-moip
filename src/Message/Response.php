@@ -1,6 +1,6 @@
 <?php
 
-namespace PlanetaDelEste\Omnipay\Moip\Message;
+namespace Omnipay\Moip\Message;
 
 
 use Omnipay\Common\Message\AbstractResponse;

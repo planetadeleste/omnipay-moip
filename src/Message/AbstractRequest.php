@@ -1,6 +1,6 @@
 <?php
 
-namespace PlanetaDelEste\Omnipay\Moip\Message;
+namespace Omnipay\Moip\Message;
 
 
 use Moip\Moip;
@@ -44,7 +44,7 @@ abstract class AbstractRequest extends BaseAbstractRequest
     /**
      * @param $data
      *
-     * @return \PlanetaDelEste\Omnipay\Moip\Message\Response
+     * @return \Omnipay\Moip\Message\Response
      */
     protected function createResponse($data)
     {

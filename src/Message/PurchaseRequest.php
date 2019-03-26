@@ -7,7 +7,7 @@
  * Time: 06:32 AM
  */
 
-namespace PlanetaDelEste\Omnipay\Moip\Message;
+namespace Omnipay\Moip\Message;
 
 
 class PurchaseRequest extends AbstractRequest
