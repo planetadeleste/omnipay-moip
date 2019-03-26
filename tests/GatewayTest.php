@@ -3,13 +3,13 @@
 namespace Bavarianlabs\Omnipay\Tests;
 
 
-use PlanetaDelEste\Omnipay\Moip\Gateway;
+use Omnipay\Moip\MoipGateway;
 use Omnipay\Tests\GatewayTestCase;
 
 class GatewayTest extends GatewayTestCase
 {
     /**
-     * @var $gateway Gateway
+     * @var $gateway MoipGateway
      */
     protected $gateway;
 
@@ -17,12 +17,12 @@ class GatewayTest extends GatewayTestCase
     {
         parent::setUp();
 
-        $this->gateway = new Gateway();
+        $this->gateway = new MoipGateway();
     }
 
     public function testShouldBeInstanceOfGateway()
     {
-        $this->assertInstanceOf('PlanetaDelEste\Omnipay\Moip\Gateway', $this->gateway);
+        $this->assertInstanceOf('Omnipay\Moip\MoipGateway', $this->gateway);
     }
 
     public function testShouldBeReturnGatewayName()
@@ -87,6 +87,6 @@ class GatewayTest extends GatewayTestCase
     public function testAuthorize()
     {
         $request = $this->gateway->authorize(array('' => ''));
-        $this->assertInstanceOf('PlanetaDelEste\Omnipay\Moip\Message\AuthorizeRequest', $request);
+        $this->assertInstanceOf('Omnipay\Moip\Message\AuthorizeRequest', $request);
     }
 }

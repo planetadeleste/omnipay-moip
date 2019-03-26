@@ -36,21 +36,8 @@ class MoipGateway extends AbstractGateway
      */
     public function getName()
     {
-        return 'Moip Payment';
-    }
-
-    /**
-     * Get gateway display short name
-     *
-     * This can be used by developers to get the short display name gateway.
-     *
-     * @return string
-     */
-    public function getShortName()
-    {
         return 'Moip';
     }
-
 
     /**
      * Set token authorization service
