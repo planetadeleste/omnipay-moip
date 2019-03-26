@@ -3,6 +3,7 @@
 namespace PlanetaDelEste\Omnipay\Moip\Message;
 
 
+use Moip\Moip;
 use Omnipay\Common\Message\AbstractRequest as BaseAbstractRequest;
 
 abstract class AbstractRequest extends BaseAbstractRequest
@@ -12,14 +13,14 @@ abstract class AbstractRequest extends BaseAbstractRequest
      *
      * @var string URL
      */
-    protected $liveEndpoint = 'https://www.moip.com.br';
+    protected $liveEndpoint = Moip::ENDPOINT_PRODUCTION;
 
     /**
      * Test Endpoint URL
      *
      * @var string URL
      */
-    protected $testEndpoint = 'https://desenvolvedor.moip.com.br/sandbox';
+    protected $testEndpoint = Moip::ENDPOINT_SANDBOX;
 
     public function sendData($data) {
         $this->addListener4xxErrors();
