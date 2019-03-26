@@ -9,7 +9,6 @@ use Omnipay\Common\Message\RequestInterface;
 /**
  * @method RequestInterface completeAuthorize(array $options = array())
  * @method RequestInterface capture(array $options = array())
- * @method RequestInterface purchase(array $options = array())
  * @method RequestInterface completePurchase(array $options = array())
  * @method RequestInterface refund(array $options = array())
  * @method RequestInterface void(array $options = array())
@@ -29,7 +28,7 @@ class Gateway extends AbstractGateway
      */
     public function getName()
     {
-        return 'MoIP Payment';
+        return 'Moip Payment';
     }
 
     /**
@@ -41,7 +40,7 @@ class Gateway extends AbstractGateway
      */
     public function getShortName()
     {
-        return 'MoIP';
+        return 'Moip';
     }
 
 
@@ -86,15 +85,46 @@ class Gateway extends AbstractGateway
     }
 
     /**
+     * Set client Id
+     *
+     * @param string $ownId
+     */
+    public function setOwnId($ownId)
+    {
+        $this->setParameter('ownId', $ownId);
+    }
+
+    /**
+     * Get client Id
+     *
+     * @return string $ownId
+     */
+    public function getOwnId()
+    {
+        return $this->getParameter('ownId');
+    }
+
+
+    /**
      * Create request for to consume service
      *
      * @param array $parameters
      *
      * @return \Omnipay\Common\Message\AbstractRequest
      */
-    public function authorize(array $parameters = array())
+    public function authorize(array $parameters = [])
     {
         return $this->createRequest('\PlanetaDelEste\Omnipay\Moip\Message\AuthorizeRequest', $parameters);
+    }
+
+    /**
+     * @param array $parameters
+     *
+     * @return \Omnipay\Common\Message\AbstractRequest|\Omnipay\Common\Message\RequestInterface
+     */
+    public function purchase($parameters = [])
+    {
+        return $this->createRequest('\PlanetaDelEste\Omnipay\Moip\Message\PurchaseRequest', $parameters);
     }
 
     public function __call($name, $arguments)

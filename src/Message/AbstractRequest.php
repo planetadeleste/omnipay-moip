@@ -25,13 +25,10 @@ abstract class AbstractRequest extends BaseAbstractRequest
     public function sendData($data) {
         $this->addListener4xxErrors();
 
-        $this->httpRequest = $this->httpClient->createRequest(
-            $this->getHttpMethod(),
-            $this->getEndpoint(),
-            $this->getData()
-        );
+        $httpRequest = $this->httpClient->post($this->getEndpoint(), null, http_build_query($data, '', '&'));
+        $httpResponse = $httpRequest->send();
 
-        $httpResponse = $this->httpRequest->send();
+        return $this->createResponse($httpResponse->getBody());
     }
 
     /**
@@ -42,6 +39,16 @@ abstract class AbstractRequest extends BaseAbstractRequest
     protected function getEndpoint()
     {
         return $this->getTestMode() ? $this->getTestEndpoint() : $this->getLiveEndpoint();
+    }
+
+    /**
+     * @param $data
+     *
+     * @return \PlanetaDelEste\Omnipay\Moip\Message\Response
+     */
+    protected function createResponse($data)
+    {
+        return $this->response = new Response($this, $data);
     }
 
     /**
@@ -74,6 +81,26 @@ abstract class AbstractRequest extends BaseAbstractRequest
     private function getTestEndpoint()
     {
         return $this->testEndpoint;
+    }
+
+    /**
+     * Set client Id
+     *
+     * @param string $ownId
+     */
+    public function setOwnId($ownId)
+    {
+        $this->setParameter('ownId', $ownId);
+    }
+
+    /**
+     * Get client Id
+     *
+     * @return string $ownId
+     */
+    public function getOwnId()
+    {
+        return $this->getParameter('ownId');
     }
 
 
