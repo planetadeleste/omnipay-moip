@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "b92893658d2fbad19e3659ee0326b7b6",
+    "content-hash": "d6c6f037880e9f6f12e05774152262d8",
     "packages": [
         {
             "name": "guzzle/guzzle",
@@ -101,79 +101,6 @@
             ],
             "abandoned": "guzzlehttp/guzzle",
             "time": "2016-10-26T18:22:07+00:00"
-        },
-        {
-            "name": "moip/moip-sdk-php",
-            "version": "v3.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/moip/moip-sdk-php.git",
-                "reference": "c32c90218aa6f2fa85bbefa260c1e457fc80a448"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/moip/moip-sdk-php/zipball/c32c90218aa6f2fa85bbefa260c1e457fc80a448",
-                "reference": "c32c90218aa6f2fa85bbefa260c1e457fc80a448",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.5",
-                "rmccue/requests": ">=1.0"
-            },
-            "require-dev": {
-                "codacy/coverage": "dev-master",
-                "phpunit/phpunit": "~4.8.35 || ^5.7 || ^6.4"
-            },
-            "type": "libraries",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Moip\\": "src/"
-                },
-                "files": [
-                    "src/Helper/helpers.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jean Cesar Garcia",
-                    "email": "jeancesargarcia@gmail.com"
-                },
-                {
-                    "name": "João Batista Neto",
-                    "email": "neto.joaobatista@gmail.com"
-                },
-                {
-                    "name": "Caio Gaspar",
-                    "email": "caio.gaspar@moip.com.br"
-                },
-                {
-                    "name": "João Lucas Lucchetta",
-                    "email": "joao.lucchetta@moip.com.br"
-                },
-                {
-                    "name": "Matheus Nakaya",
-                    "email": "matheus.nakaya@moip.com.br"
-                }
-            ],
-            "description": "Cliente em PHP para integração server-side com APIs Moip v2",
-            "homepage": "http://dev.moip.com.br",
-            "keywords": [
-                "checkout",
-                "intermediary",
-                "libraries",
-                "marketplace",
-                "moip"
-            ],
-            "time": "2018-01-29T13:31:39+00:00"
         },
         {
             "name": "omnipay/common",
@@ -314,55 +241,6 @@
                 "random"
             ],
             "time": "2018-08-07T13:07:48+00:00"
-        },
-        {
-            "name": "rmccue/requests",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/rmccue/Requests.git",
-                "reference": "4055bc412f128bb298735d5e1b0189eff41f1340"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/rmccue/Requests/zipball/4055bc412f128bb298735d5e1b0189eff41f1340",
-                "reference": "4055bc412f128bb298735d5e1b0189eff41f1340",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.2"
-            },
-            "require-dev": {
-                "requests/test-server": "dev-master"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Requests": "library/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "ISC"
-            ],
-            "authors": [
-                {
-                    "name": "Ryan McCue",
-                    "homepage": "http://ryanmccue.info"
-                }
-            ],
-            "description": "A HTTP library written in PHP, for human beings.",
-            "homepage": "http://github.com/rmccue/Requests",
-            "keywords": [
-                "curl",
-                "fsockopen",
-                "http",
-                "idna",
-                "ipv6",
-                "iri",
-                "sockets"
-            ],
-            "time": "2017-12-13T02:37:47+00:00"
         },
         {
             "name": "symfony/event-dispatcher",
@@ -1106,28 +984,25 @@
         },
         {
             "name": "phpunit/php-file-iterator",
-            "version": "dev-master",
+            "version": "1.4.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-file-iterator.git",
-                "reference": "5e99c0ea25f1eb9bd4d7380499788302984dd77b"
+                "reference": "730b01bc3e867237eaac355e06a36b85dd93a8b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-file-iterator/zipball/5e99c0ea25f1eb9bd4d7380499788302984dd77b",
-                "reference": "5e99c0ea25f1eb9bd4d7380499788302984dd77b",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-file-iterator/zipball/730b01bc3e867237eaac355e06a36b85dd93a8b4",
+                "reference": "730b01bc3e867237eaac355e06a36b85dd93a8b4",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.1"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^7.1"
+                "php": ">=5.3.3"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.0.x-dev"
+                    "dev-master": "1.4.x-dev"
                 }
             },
             "autoload": {
@@ -1142,7 +1017,7 @@
             "authors": [
                 {
                     "name": "Sebastian Bergmann",
-                    "email": "sebastian@phpunit.de",
+                    "email": "sb@sebastian-bergmann.de",
                     "role": "lead"
                 }
             ],
@@ -1152,7 +1027,7 @@
                 "filesystem",
                 "iterator"
             ],
-            "time": "2019-02-11T12:49:18+00:00"
+            "time": "2017-11-27T13:52:08+00:00"
         },
         {
             "name": "phpunit/php-text-template",
@@ -2044,7 +1919,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=5.3.2"
+        "php": ">=5.4"
     },
     "platform-dev": []
 }

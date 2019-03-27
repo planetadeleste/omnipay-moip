@@ -122,6 +122,26 @@ class Gateway extends AbstractGateway
         return $this->createRequest('\Omnipay\Moip\Message\PurchaseRequest', $parameters);
     }
 
+    /**
+     * @param array $parameters
+     *
+     * @return \Omnipay\Common\Message\AbstractRequest
+     */
+    public function createCustomer($parameters = [])
+    {
+        return $this->createRequest('\Omnipay\Moip\Message\CreateCustomerRequest', $parameters);
+    }
+
+    /**
+     * @param array $parameters
+     *
+     * @return \Omnipay\Common\Message\AbstractRequest
+     */
+    public function createOrder($parameters = [])
+    {
+        return $this->createRequest('\Omnipay\Moip\Message\CreateOrderRequest', $parameters);
+    }
+
     public function __call($name, $arguments)
     {
         // TODO: Implement @method \Omnipay\Common\Message\RequestInterface completeAuthorize(array $options = array())

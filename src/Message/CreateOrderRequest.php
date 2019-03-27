@@ -1,23 +1,15 @@
 <?php
-/**
- * omipay-moip
- * Created by alvaro.
- * User: alvaro
- * Date: 26/03/19
- * Time: 06:32 AM
- */
 
 namespace Omnipay\Moip\Message;
 
 
-class PurchaseRequest extends CreateOrderRequest
+class CreateOrderRequest extends CreateCustomerRequest
 {
-
     /**
      * Get the raw data array for this message. The format of this varies from gateway to
      * gateway, but will usually be either an associative array, or a SimpleXMLElement.
      *
-     * @return array
+     * @return mixed
      * @throws \Omnipay\Common\Exception\InvalidRequestException
      * @throws \Omnipay\Common\Exception\InvalidCreditCardException
      */
@@ -25,19 +17,23 @@ class PurchaseRequest extends CreateOrderRequest
     {
         /** @var \Omnipay\Common\Item $item */
 
-        $this->validate('amount', 'card', 'orderReference');
-        $this->getCard()->validate();
+        $this->validate('amount', 'currency', 'items');
 
         $data = [
-            'ownId'             => $this->getOwnId(),
-            'fundingInstrument' => [
-                'method'     => 'CREDIT_CARD',
-                'creditCard' => $this->getCardData()
+            'ownId'    => $this->getOwnId(),
+            'amount'   => [
+                'currency' => $this->getCurrency()
             ],
-            'amount'            => ['currency' => $this->getCurrency()]
+            'items'    => [],
+            'customer' => []
         ];
 
-        $data['items'] = [];
+        if ($this->getCustomerReference()) {
+            $data['customer']['id'] = $this->getCustomerReference();
+        } else {
+            $data['customer'] = parent::getData();
+        }
+
         $items = $this->getItems();
         if ($items) {
             foreach ($items as $item) {
@@ -57,6 +53,6 @@ class PurchaseRequest extends CreateOrderRequest
 
     protected function getEndpoint()
     {
-        return parent::getEndpoint().'/'.$this->getOrderReference().'/payments';
+        return AbstractRequest::getEndpoint().'/orders';
     }
 }

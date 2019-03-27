@@ -2,8 +2,6 @@
 
 namespace Omnipay\Moip\Message;
 
-
-use Moip\Moip;
 use Omnipay\Common\Message\AbstractRequest as BaseAbstractRequest;
 
 abstract class AbstractRequest extends BaseAbstractRequest
@@ -13,22 +11,47 @@ abstract class AbstractRequest extends BaseAbstractRequest
      *
      * @var string URL
      */
-    protected $liveEndpoint = Moip::ENDPOINT_PRODUCTION;
+    protected $liveEndpoint = 'https://api.moip.com.br/v2';
 
     /**
      * Test Endpoint URL
      *
      * @var string URL
      */
-    protected $testEndpoint = Moip::ENDPOINT_SANDBOX;
+    protected $testEndpoint = 'https://sandbox.moip.com.br/v2';
+
+    /**
+     * Set api key authentication service
+     *
+     * @param string $apiKey
+     */
+    public function setApiKey($apiKey)
+    {
+        $this->setParameter('apiKey', $apiKey);
+    }
+
+    /**
+     * Get api key authentication service
+     *
+     * @return string $apiKey
+     */
+    public function getApiKey()
+    {
+        return $this->getParameter('apiKey');
+    }
 
     public function sendData($data) {
         $this->addListener4xxErrors();
 
-        $httpRequest = $this->httpClient->post($this->getEndpoint(), null, http_build_query($data, '', '&'));
-        $httpResponse = $httpRequest->send();
+        $headers = ['Authorization' => 'Basic ' . base64_encode($this->getToken().':'.$this->getApiKey())];
+        $httpRequest = $this->httpClient->createRequest(
+            $this->getHttpMethod(),
+            $this->getEndpoint(),
+            $headers,
+            $data
+        );
 
-        return $this->createResponse($httpResponse->getBody());
+        return $httpRequest;
     }
 
     /**
@@ -101,6 +124,88 @@ abstract class AbstractRequest extends BaseAbstractRequest
     public function getOwnId()
     {
         return $this->getParameter('ownId');
+    }
+
+    /**
+     * Get the customer reference.
+     *
+     * @return string
+     */
+    public function getCustomerReference()
+    {
+        return $this->getParameter('customerReference');
+    }
+
+    /**
+     * Set the customer reference.
+     *
+     * Used when calling CreateCard on an existing customer.  If this
+     * parameter is not set then a new customer is created.
+     *
+     * @param string $value
+     *
+     * @return \Omnipay\Common\Message\AbstractRequest
+     */
+    public function setCustomerReference($value)
+    {
+        return $this->setParameter('customerReference', $value);
+    }
+
+    /**
+     * Get the order reference.
+     *
+     * @return string
+     */
+    public function getOrderReference()
+    {
+        return $this->getParameter('orderReference');
+    }
+
+    /**
+     * Set the order reference.
+     *
+     * @param string $value
+     *
+     * @return \Omnipay\Common\Message\AbstractRequest
+     */
+    public function setOrderReference($value)
+    {
+        return $this->setParameter('orderReference', $value);
+    }
+
+    /**
+     * Get the card data.
+     *
+     * Because the stripe gateway uses a common format for passing
+     * card data to the API, this function can be called to get the
+     * data from the associated card object in the format that the
+     * API requires.
+     *
+     * @return array
+     * @throws \Omnipay\Common\Exception\InvalidCreditCardException
+     */
+    protected function getCardData()
+    {
+        $card = $this->getCard();
+        $card->validate();
+
+        $data = array();
+        $data['number'] = $card->getNumber();
+        $data['expirationMonth'] = $card->getExpiryMonth();
+        $data['expirationYear'] = $card->getExpiryYear();
+        if ($card->getCvv()) {
+            $data['cvc'] = $card->getCvv();
+        }
+        $data['name'] = $card->getName();
+        $data['address_line1'] = $card->getAddress1();
+        $data['address_line2'] = $card->getAddress2();
+        $data['address_city'] = $card->getCity();
+        $data['address_zip'] = $card->getPostcode();
+        $data['address_state'] = $card->getState();
+        $data['address_country'] = $card->getCountry();
+        $data['email']           = $card->getEmail();
+
+        return $data;
     }
 
 

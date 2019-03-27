@@ -31,8 +31,7 @@
     ],
     "require": {
         "php": ">=5.4",
-        "omnipay/common": "~2.3",
-        "moip/moip-sdk-php": "~3.1"
+        "omnipay/common": "~2.3"
     },
     "require-dev": {
         "omnipay/tests": "~2.0"

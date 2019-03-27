@@ -4,17 +4,9 @@ namespace Omnipay\Moip\Message;
 
 
 use Omnipay\Common\Message\AbstractResponse;
-use Omnipay\Common\Message\RequestInterface;
 
 class Response extends AbstractResponse
 {
-    public function __construct(RequestInterface $request, $data)
-    {
-        parent::__construct($request, $data);
-
-        $this->request = $request;
-        parse_str($data, $this->data);
-    }
 
     /**
      * Is the response successful?
@@ -23,6 +15,36 @@ class Response extends AbstractResponse
      */
     public function isSuccessful()
     {
-        // TODO: Implement isSuccessful() method.
+        return !isset($this->data['error']);
+    }
+
+    /**
+     * Get customer reference Id from createCustomer or createOrder requests
+     *
+     * @return string|null
+     */
+    public function getCustomerReference()
+    {
+        if(isset($this->data['customer']) && array_key_exists('id', $this->data['customer'])) {
+            return $this->data['customer']['id'];
+        } elseif (isset($this->data['id'])) {
+            return $this->data['id'];
+        }
+
+        return null;
+    }
+
+    /**
+     * Get Order reference from createOrder
+     *
+     * @return string|null
+     */
+    public function getOrderReference()
+    {
+        if(isset($this->data['id'])) {
+            return $this->data['id'];
+        }
+
+        return null;
     }
 }
