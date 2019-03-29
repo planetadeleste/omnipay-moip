@@ -45,10 +45,14 @@ abstract class AbstractRequest extends BaseAbstractRequest
      *
      * @return \Omnipay\Common\Message\ResponseInterface|\Omnipay\Moip\Message\Response
      */
-    public function sendData($data) {
+    public function sendData($data)
+    {
         $this->addListener4xxErrors();
 
-        $headers = ['Authorization' => 'Basic ' . base64_encode($this->getToken().':'.$this->getApiKey())];
+        $headers = [
+            'Authorization' => 'Basic '.base64_encode($this->getToken().':'.$this->getApiKey()),
+            'Content-Type'  => 'application/json'
+        ];
         $httpRequest = $this->httpClient->createRequest(
             $this->getHttpMethod(),
             $this->getEndpoint(),
@@ -195,7 +199,7 @@ abstract class AbstractRequest extends BaseAbstractRequest
         $card = $this->getCard();
         $card->validate();
 
-        $data = array();
+        $data = [];
         $data['number'] = $card->getNumber();
         $data['expirationMonth'] = $card->getExpiryMonth();
         $data['expirationYear'] = $card->getExpiryYear();
@@ -209,7 +213,7 @@ abstract class AbstractRequest extends BaseAbstractRequest
         $data['address_zip'] = $card->getPostcode();
         $data['address_state'] = $card->getState();
         $data['address_country'] = $card->getCountry();
-        $data['email']           = $card->getEmail();
+        $data['email'] = $card->getEmail();
 
         return $data;
     }
