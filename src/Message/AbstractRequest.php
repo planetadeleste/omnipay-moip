@@ -40,6 +40,11 @@ abstract class AbstractRequest extends BaseAbstractRequest
         return $this->getParameter('apiKey');
     }
 
+    /**
+     * @param mixed $data
+     *
+     * @return \Omnipay\Common\Message\ResponseInterface|\Omnipay\Moip\Message\Response
+     */
     public function sendData($data) {
         $this->addListener4xxErrors();
 
@@ -51,7 +56,8 @@ abstract class AbstractRequest extends BaseAbstractRequest
             $data
         );
 
-        return $httpRequest;
+        $httpResponse = $httpRequest->send();
+        return $this->createResponse($httpResponse->json());
     }
 
     /**
