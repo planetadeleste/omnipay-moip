@@ -6,6 +6,26 @@ namespace Omnipay\Moip\Message;
 class CreateOrderRequest extends CreateCustomerRequest
 {
     /**
+     * Set client Id
+     *
+     * @param string $ownId
+     */
+    public function setOrderOwnId($ownId)
+    {
+        $this->setParameter('orderOwnId', $ownId);
+    }
+
+    /**
+     * Get client Id
+     *
+     * @return string $ownId
+     */
+    public function getOrderOwnId()
+    {
+        return $this->getParameter('orderOwnId');
+    }
+
+    /**
      * Get the raw data array for this message. The format of this varies from gateway to
      * gateway, but will usually be either an associative array, or a SimpleXMLElement.
      *
@@ -20,7 +40,7 @@ class CreateOrderRequest extends CreateCustomerRequest
         $this->validate('amount', 'currency', 'items');
 
         $data = [
-            'ownId'    => $this->getOwnId(),
+            'ownId'    => $this->getOrderOwnId(),
             'amount'   => [
                 'currency' => $this->getCurrency()
             ],

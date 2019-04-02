@@ -15,7 +15,16 @@ class Response extends AbstractResponse
      */
     public function isSuccessful()
     {
-        return !isset($this->data['error']);
+        return !isset($this->data['error']) && !isset($this->data['errors']);
+    }
+
+    public function getTransactionId()
+    {
+        if(isset($this->data['id'])) {
+            return (strtoupper( substr($this->data['id'], 0, 3) ) == 'PAY') ? $this->data['id'] : null;
+        }
+
+        return null;
     }
 
     /**
@@ -28,7 +37,7 @@ class Response extends AbstractResponse
         if(isset($this->data['customer']) && array_key_exists('id', $this->data['customer'])) {
             return $this->data['customer']['id'];
         } elseif (isset($this->data['id'])) {
-            return $this->data['id'];
+            return (strtoupper( substr($this->data['id'], 0, 3) ) == 'CUS') ? $this->data['id'] : null;
         }
 
         return null;
@@ -42,9 +51,17 @@ class Response extends AbstractResponse
     public function getOrderReference()
     {
         if(isset($this->data['id'])) {
-            return $this->data['id'];
+            return (strtoupper( substr($this->data['id'], 0, 3) ) == 'ORD') ? $this->data['id'] : null;
         }
 
         return null;
+    }
+
+    /**
+     * @return array|null [['code' => 'ORD-001', 'path' => 'ownId', 'description' => 'Error message']]
+     */
+    public function getErrors()
+    {
+        return (isset($this->data['errors'])) ? $this->data['errors'] : null;
     }
 }

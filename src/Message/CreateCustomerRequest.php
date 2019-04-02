@@ -6,6 +6,26 @@ namespace Omnipay\Moip\Message;
 class CreateCustomerRequest extends AbstractRequest
 {
     /**
+     * Set client Id
+     *
+     * @param string $ownId
+     */
+    public function setCustomerOwnId($ownId)
+    {
+        $this->setParameter('customerOwnId', $ownId);
+    }
+
+    /**
+     * Get client Id
+     *
+     * @return string $ownId
+     */
+    public function getCustomerOwnId()
+    {
+        return $this->getParameter('customerOwnId');
+    }
+
+    /**
      * Set client Tax Document type
      *
      * @param string $taxDocumentType
@@ -156,16 +176,8 @@ class CreateCustomerRequest extends AbstractRequest
     {
         $card = $this->getCard();
 
-        $cardData['holder'] = [
-            'fullname'       => $card->getFirstName().' '.$card->getLastName(),
-            'birthdate'      => $card->getBirthday(),
-            'taxDocument'    => $this->getTaxDocumentParams(),
-            'billingAddress' => $this->getBillingParams($card),
-            'phone'          => $this->getPhoneParams($card),
-        ];
-
         $data = [
-            'ownId'             => $this->getOwnId(),
+            'ownId'             => $this->getCustomerOwnId(),
             'fullname'          => $card->getFirstName().' '.$card->getLastName(),
             'email'             => $card->getEmail(),
             'birthDate'         => $card->getBirthday(),
@@ -207,13 +219,20 @@ class CreateCustomerRequest extends AbstractRequest
     public function getShippingParams($card)
     {
         return [
-            'city'         => $card->getShippingCity(),
-            'district'     => $this->getShippingDistrict(),
-            'street'       => $card->getShippingAddress1(),
-            'streetNumber' => $this->getShippingStreetNumber(),
-            'zipCode'      => $card->getShippingPostcode(),
-            'state'        => $card->getShippingState(),
-            'country'      => $card->getShippingCountry(),
+            'city'         => ($card->getShippingCity()) ?
+                $card->getShippingCity() : $card->getBillingCity(),
+            'district'     => ($this->getShippingDistrict()) ?
+                $this->getShippingDistrict() : $this->getBillingDistrict(),
+            'street'       => ($card->getShippingAddress1()) ?
+                $card->getShippingAddress1() : $card->getBillingAddress1(),
+            'streetNumber' => ($this->getShippingStreetNumber()) ?
+                $this->getShippingStreetNumber() : $this->getBillingStreetNumber(),
+            'zipCode'      => ($card->getShippingPostcode()) ?
+                $card->getShippingPostcode() : $card->getBillingPostcode(),
+            'state'        => ($card->getShippingState()) ?
+                $card->getShippingState() : $card->getBillingState(),
+            'country'      => ($card->getShippingCountry()) ?
+                $card->getShippingCountry() : $card->getBillingCountry(),
         ];
     }
 

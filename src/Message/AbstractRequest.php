@@ -117,26 +117,6 @@ abstract class AbstractRequest extends BaseAbstractRequest
     }
 
     /**
-     * Set client Id
-     *
-     * @param string $ownId
-     */
-    public function setOwnId($ownId)
-    {
-        $this->setParameter('ownId', $ownId);
-    }
-
-    /**
-     * Get client Id
-     *
-     * @return string $ownId
-     */
-    public function getOwnId()
-    {
-        return $this->getParameter('ownId');
-    }
-
-    /**
      * Get the customer reference.
      *
      * @return string

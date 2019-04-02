@@ -29,7 +29,7 @@ class PurchaseRequest extends CreateOrderRequest
         $this->getCard()->validate();
 
         $data = [
-            'ownId'             => $this->getOwnId(),
+            'ownId'             => $this->getOrderOwnId(),
             'fundingInstrument' => [
                 'method'     => 'CREDIT_CARD',
                 'creditCard' => $this->getCardData()
