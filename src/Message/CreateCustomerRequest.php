@@ -171,9 +171,12 @@ class CreateCustomerRequest extends AbstractRequest
      *
      * @return mixed
      * @throws \Omnipay\Common\Exception\InvalidCreditCardException
+     * @throws \Omnipay\Common\Exception\InvalidRequestException
      */
     public function getData()
     {
+        $this->validate('paymentMethod');
+
         $card = $this->getCard();
 
         $data = [
@@ -184,10 +187,7 @@ class CreateCustomerRequest extends AbstractRequest
             'taxDocument'       => $this->getTaxDocumentParams(),
             'phone'             => $this->getPhoneParams($card),
             'shippingAddress'   => $this->getShippingParams($card),
-            'fundingInstrument' => [
-                'method'     => 'CREDIT_CARD',
-                'creditCard' => $this->getCardData()
-            ],
+            'fundingInstrument' => $this->getFundingInstrumentData(),
         ];
 
         return $data;
@@ -259,6 +259,28 @@ class CreateCustomerRequest extends AbstractRequest
             'type'   => ($this->getTaxDocumentType()) ? $this->getTaxDocumentType() : 'CPF',
             'number' => $this->getTaxDocumentNumber(),
         ];
+    }
+
+    /**
+     * @return array
+     * @throws \Omnipay\Common\Exception\InvalidCreditCardException
+     * @throws \Omnipay\Common\Exception\InvalidRequestException
+     */
+    public function getFundingInstrumentData()
+    {
+        $this->validate('paymentMethod');
+
+        $data = [
+            'method' => $this->getPaymentMethod(),
+        ];
+
+        if ($this->getPaymentMethod() == 'BOLETO') {
+            $data['boleto'] = $this->getBoletoData();
+        } else {
+            $data['creditCard'] = $this->getCardData();
+        }
+
+        return $data;
     }
 
     protected function getCardData()

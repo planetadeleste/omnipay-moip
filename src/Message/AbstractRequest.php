@@ -164,6 +164,90 @@ abstract class AbstractRequest extends BaseAbstractRequest
     }
 
     /**
+     * Set card hash
+     *
+     * @param string $hash
+     */
+    public function setCardHash($hash)
+    {
+        $this->setParameter('cardHash', $hash);
+    }
+
+    /**
+     * Get card hash
+     *
+     * @return string
+     */
+    public function getCardHash()
+    {
+        return $this->getParameter('cardHash');
+    }
+
+    /**
+     * @param string $value Date format 'yyyy-mm-dd'
+     */
+    public function setExpirationDate($value)
+    {
+        $this->setParameter('expirationDate', $value);
+    }
+
+    /**
+     * @return string
+     */
+    public function getExpirationDate()
+    {
+        return $this->getParameter('expirationDate');
+    }
+
+    /**
+     * @param string $value
+     */
+    public function setInstructionLinesFirst($value)
+    {
+        $this->setParameter('instructionLinesFirst', $value);
+    }
+
+    /**
+     * @return string
+     */
+    public function getInstructionLinesFirst()
+    {
+        return $this->getParameter('instructionLinesFirst');
+    }
+
+    /**
+     * @param string $value
+     */
+    public function setInstructionLinesSecond($value)
+    {
+        $this->setParameter('instructionLinesSecond', $value);
+    }
+
+    /**
+     * @return string
+     */
+    public function getInstructionLinesSecond()
+    {
+        return $this->getParameter('instructionLinesSecond');
+    }
+
+    /**
+     * @param string $value
+     */
+    public function setInstructionLinesThird($value)
+    {
+        $this->setParameter('instructionLinesThird', $value);
+    }
+
+    /**
+     * @return string
+     */
+    public function getInstructionLinesThird()
+    {
+        return $this->getParameter('instructionLinesThird');
+    }
+
+    /**
      * Get the card data.
      *
      * Because the stripe gateway uses a common format for passing
@@ -180,20 +264,42 @@ abstract class AbstractRequest extends BaseAbstractRequest
         $card->validate();
 
         $data = [];
-        $data['number'] = $card->getNumber();
-        $data['expirationMonth'] = $card->getExpiryMonth();
-        $data['expirationYear'] = $card->getExpiryYear();
-        if ($card->getCvv()) {
-            $data['cvc'] = $card->getCvv();
+        if($this->getCardHash()) {
+            $data['hash'] = $this->getCardHash();
+        } else {
+            $data['number'] = $card->getNumber();
+            $data['expirationMonth'] = $card->getExpiryMonth();
+            $data['expirationYear'] = $card->getExpiryYear();
+            if ($card->getCvv()) {
+                $data['cvc'] = $card->getCvv();
+            }
         }
-        $data['name'] = $card->getName();
-        $data['address_line1'] = $card->getAddress1();
-        $data['address_line2'] = $card->getAddress2();
-        $data['address_city'] = $card->getCity();
-        $data['address_zip'] = $card->getPostcode();
-        $data['address_state'] = $card->getState();
-        $data['address_country'] = $card->getCountry();
-        $data['email'] = $card->getEmail();
+//        $data['name'] = $card->getName();
+//        $data['address_line1'] = $card->getAddress1();
+//        $data['address_line2'] = $card->getAddress2();
+//        $data['address_city'] = $card->getCity();
+//        $data['address_zip'] = $card->getPostcode();
+//        $data['address_state'] = $card->getState();
+//        $data['address_country'] = $card->getCountry();
+//        $data['email'] = $card->getEmail();
+
+        return $data;
+    }
+
+    public function getBoletoData()
+    {
+        $this->validate('expirationDate', 'instructionLinesFirst');
+        $data = [];
+
+        $data['expirationDate'] = $this->getExpirationDate();
+        $data['instructionLines'] = [];
+        $data['instructionLines']['first'] = $this->getInstructionLinesFirst();
+        if($this->getInstructionLinesSecond()) {
+            $data['instructionLines']['second'] = $this->getInstructionLinesSecond();
+        }
+        if($this->getInstructionLinesThird()) {
+            $data['instructionLines']['third'] = $this->getInstructionLinesThird();
+        }
 
         return $data;
     }

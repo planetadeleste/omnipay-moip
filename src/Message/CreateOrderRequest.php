@@ -54,6 +54,10 @@ class CreateOrderRequest extends CreateCustomerRequest
             $data['customer'] = parent::getData();
         }
 
+        if(array_key_exists('fundingInstrument', $data['customer'])) {
+            unset($data['customer']['fundingInstrument']);
+        }
+
         $items = $this->getItems();
         if ($items) {
             foreach ($items as $item) {

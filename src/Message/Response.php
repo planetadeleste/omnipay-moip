@@ -58,6 +58,111 @@ class Response extends AbstractResponse
     }
 
     /**
+     * @return string|null
+     */
+    public function getStatus()
+    {
+        return isset($this->data['status']) ? $this->data['status'] : null;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isCreated()
+    {
+        return $this->getStatus() === 'CREATED';
+    }
+
+    /**
+     * @return bool
+     */
+    public function isWaiting()
+    {
+        return $this->getStatus() === 'WAITING';
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPaid()
+    {
+        return $this->getStatus() === 'PAID';
+    }
+
+    /**
+     * @return bool
+     */
+    public function isNotPaid()
+    {
+        return $this->getStatus() === 'NOT_PAID';
+    }
+
+    /**
+     * @return bool
+     */
+    public function isReverted()
+    {
+        return $this->getStatus() === 'REVERTED';
+    }
+
+    /**
+     * @return bool
+     */
+    public function isInAnalysis()
+    {
+        return $this->getStatus() === 'IN_ANALYSIS';
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPreAuthorized()
+    {
+        return $this->getStatus() === 'PRE_AUTHORIZED';
+    }
+
+    /**
+     * @return bool
+     */
+    public function isAuthorized()
+    {
+        return $this->getStatus() === 'AUTHORIZED';
+    }
+
+    /**
+     * @return bool
+     */
+    public function isCancelled()
+    {
+        return $this->getStatus() === 'CANCELLED';
+    }
+
+    /**
+     * @return bool
+     */
+    public function isRefunded()
+    {
+        return $this->getStatus() === 'REFUNDED';
+    }
+
+    /**
+     * @return bool
+     */
+    public function isReversed()
+    {
+        return $this->getStatus() === 'REVERSED';
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSettled()
+    {
+        return $this->getStatus() === 'SETTLED';
+    }
+
+
+    /**
      * @return array|null [['code' => 'ORD-001', 'path' => 'ownId', 'description' => 'Error message']]
      */
     public function getErrors()
