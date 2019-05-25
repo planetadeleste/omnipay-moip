@@ -4,6 +4,12 @@ namespace Omnipay\Moip\Message;
 
 use Omnipay\Common\Message\AbstractRequest as BaseAbstractRequest;
 
+/**
+ * Class AbstractRequest
+ *
+ * @package Omnipay\Moip\Message
+ * @mixin \Omnipay\Common\Message\AbstractRequest
+ */
 abstract class AbstractRequest extends BaseAbstractRequest
 {
     /**
@@ -44,9 +50,11 @@ abstract class AbstractRequest extends BaseAbstractRequest
      * @param mixed $data
      *
      * @return \Omnipay\Common\Message\ResponseInterface|\Omnipay\Moip\Message\Response
+     * @throws \Omnipay\Common\Exception\InvalidRequestException
      */
     public function sendData($data)
     {
+        $this->validate('apiKey', 'token');
         $this->addListener4xxErrors();
 
         $headers = [
@@ -184,6 +192,46 @@ abstract class AbstractRequest extends BaseAbstractRequest
     }
 
     /**
+     * Set card ID
+     *
+     * @param string $cardId
+     */
+    public function setCardId($cardId)
+    {
+        $this->setParameter('cardId', $cardId);
+    }
+
+    /**
+     * Get card ID
+     *
+     * @return string
+     */
+    public function getCardId()
+    {
+        return $this->getParameter('cardId');
+    }
+
+    /**
+     * Set card ID
+     *
+     * @param string $cardCvc
+     */
+    public function setCardCvc($cardCvc)
+    {
+        $this->setParameter('cardCvc', $cardCvc);
+    }
+
+    /**
+     * Get card ID
+     *
+     * @return string
+     */
+    public function getCardCvc()
+    {
+        return $this->getParameter('cardCvc');
+    }
+
+    /**
      * @param string $value Date format 'yyyy-mm-dd'
      */
     public function setExpirationDate($value)
@@ -257,16 +305,22 @@ abstract class AbstractRequest extends BaseAbstractRequest
      *
      * @return array
      * @throws \Omnipay\Common\Exception\InvalidCreditCardException
+     * @throws \Omnipay\Common\Exception\InvalidRequestException
      */
     protected function getCardData()
     {
-        $card = $this->getCard();
-        $card->validate();
-
         $data = [];
         if($this->getCardHash()) {
             $data['hash'] = $this->getCardHash();
+        } elseif ($this->getCardId()) {
+            $this->validate('cardCvc');
+
+            $data['id'] = $this->getCardId();
+            $data['cvc'] = $this->getCardCvc();
         } else {
+            $card = $this->getCard();
+            $card->validate();
+
             $data['number'] = $card->getNumber();
             $data['expirationMonth'] = $card->getExpiryMonth();
             $data['expirationYear'] = $card->getExpiryYear();

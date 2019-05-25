@@ -3,6 +3,8 @@
 namespace Omnipay\Moip\Message;
 
 
+use PlanetaDelEste\VendorsShopaholic\Classes\PriceHelper;
+
 class CreateOrderRequest extends CreateCustomerRequest
 {
     /**
@@ -48,7 +50,9 @@ class CreateOrderRequest extends CreateCustomerRequest
             'customer' => []
         ];
 
-        if ($this->getCustomerReference()) {
+        if($this->getCustomerId()) {
+            $data['customer']['id'] = $this->getCustomerId();
+        } elseif ($this->getCustomerReference()) {
             $data['customer']['id'] = $this->getCustomerReference();
         } else {
             $data['customer'] = parent::getData();
@@ -59,6 +63,7 @@ class CreateOrderRequest extends CreateCustomerRequest
         }
 
         $items = $this->getItems();
+        $total = 0;
         if ($items) {
             foreach ($items as $item) {
                 $dataItem = [
@@ -68,7 +73,18 @@ class CreateOrderRequest extends CreateCustomerRequest
                     'price'    => $item->getPrice()
                 ];
                 $data['items'][] = $dataItem;
+                $total += $item->getPrice();
+            }
+        }
 
+        $installment = $this->getInstallmentCount();
+        if($installment > 1 && $total) {
+            $total = floatval( $total / 100 );
+            $addition = PriceHelper::addition($installment, $total);
+            if($addition) {
+                $data['amount']['subtotals'] = [
+                    'addition' => intval($addition * 100)
+                ];
             }
         }
 

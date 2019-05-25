@@ -3,25 +3,62 @@
 namespace Omnipay\Moip\Message;
 
 
-use Omnipay\Common\Message\AbstractResponse;
 
-class Response extends AbstractResponse
+class Response extends ResponseBase
 {
-
-    /**
-     * Is the response successful?
-     *
-     * @return boolean
-     */
-    public function isSuccessful()
-    {
-        return !isset($this->data['error']) && !isset($this->data['errors']);
-    }
 
     public function getTransactionId()
     {
         if(isset($this->data['id'])) {
             return (strtoupper( substr($this->data['id'], 0, 3) ) == 'PAY') ? $this->data['id'] : null;
+        }
+
+        return null;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getId()
+    {
+        if(isset($this->data['id'])) {
+            return $this->data['id'];
+        }
+
+        return null;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getTarget()
+    {
+        if(isset($this->data['target'])) {
+            return $this->data['target'];
+        }
+
+        return null;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getToken()
+    {
+        if(isset($this->data['token'])) {
+            return $this->data['token'];
+        }
+
+        return null;
+    }
+
+    /**
+     * @return array|null
+     */
+    public function getEvents()
+    {
+        if(isset($this->data['events'])) {
+            return $this->data['events'];
         }
 
         return null;

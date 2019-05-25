@@ -6,6 +6,25 @@ namespace Omnipay\Moip\Message;
 class CreateCustomerRequest extends AbstractRequest
 {
     /**
+     * Set client Moip Id
+     *
+     * @param string $id
+     */
+    public function setCustomerId($id)
+    {
+        $this->setParameter('customerId', $id);
+    }
+
+    /**
+     * Get client Moip Id
+     *
+     * @return string $ownId
+     */
+    public function getCustomerId()
+    {
+        return $this->getParameter('customerId');
+    }
+    /**
      * Set client Id
      *
      * @param string $ownId
@@ -304,13 +323,15 @@ class CreateCustomerRequest extends AbstractRequest
     {
         $card = $this->getCard();
         $cardData = parent::getCardData();
-        $cardData['holder'] = [
-            'fullname'       => $card->getFirstName().' '.$card->getLastName(),
-            'birthdate'      => $card->getBirthday(),
-            'taxDocument'    => $this->getTaxDocumentParams(),
-            'billingAddress' => $this->getBillingParams($card),
-            'phone'          => $this->getPhoneParams($card),
-        ];
+        if(!array_key_exists('id', $cardData)) {
+            $cardData['holder'] = [
+                'fullname'       => $card->getFirstName().' '.$card->getLastName(),
+                'birthdate'      => $card->getBirthday(),
+                'taxDocument'    => $this->getTaxDocumentParams(),
+                'billingAddress' => $this->getBillingParams($card),
+                'phone'          => $this->getPhoneParams($card),
+            ];
+        }
 
         return $cardData;
     }
