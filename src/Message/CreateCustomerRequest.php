@@ -198,6 +198,22 @@ class CreateCustomerRequest extends AbstractRequest
     }
 
     /**
+     * @param mixed $cardOwner
+     */
+    public function setCardOwner($cardOwner)
+    {
+        $this->setParameter('cardOwner', $cardOwner);
+    }
+
+    /**
+     * @return string
+     */
+    public function getCardOwner()
+    {
+        return $this->getParameter('cardOwner');
+    }
+
+    /**
      * Get the raw data array for this message. The format of this varies from gateway to
      * gateway, but will usually be either an associative array, or a SimpleXMLElement.
      *
@@ -219,8 +235,11 @@ class CreateCustomerRequest extends AbstractRequest
             'taxDocument'       => $this->getTaxDocumentParams(),
             'phone'             => $this->getPhoneParams($card),
             'shippingAddress'   => $this->getShippingParams($card),
-            'fundingInstrument' => $this->getFundingInstrumentData(),
         ];
+
+        if($this->getCardOwner()) {
+            $data['fundingInstrument'] = $this->getFundingInstrumentData();
+        }
 
         if($this->getPaymentMethod() == 'CREDIT_CARD') {
             $data['installmentCount'] = ($this->getInstallmentCount()) ? $this->getInstallmentCount() : 1;

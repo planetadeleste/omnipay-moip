@@ -2,8 +2,7 @@
 
 namespace Omnipay\Moip\Message;
 
-
-use PlanetaDelEste\VendorsShopaholic\Classes\PriceHelper;
+use PlanetaDelEste\VendorsShopaholic\Classes\Helper\PriceHelper;
 
 class CreateOrderRequest extends CreateCustomerRequest
 {
