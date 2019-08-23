@@ -85,6 +85,22 @@ class CreateCustomerRequest extends AbstractRequest
     }
 
     /**
+     * @param mixed $billingTaxDocumentNumber
+     */
+    public function setBillingTaxDocumentNumber($billingTaxDocumentNumber)
+    {
+        $this->setParameter('billingTaxDocumentNumber', $billingTaxDocumentNumber);
+    }
+
+    /**
+     * @return string
+     */
+    public function getBillingTaxDocumentNumber()
+    {
+        return $this->getParameter('billingTaxDocumentNumber');
+    }
+
+    /**
      * Set client phone area code
      *
      * @param string $areaCode
@@ -185,19 +201,6 @@ class CreateCustomerRequest extends AbstractRequest
     }
 
     /**
-     * @param int $value
-     */
-    public function setInstallmentCount($value)
-    {
-        $this->setParameter('installmentCount', $value);
-    }
-
-    public function getInstallmentCount()
-    {
-        return $this->getParameter('installmentCount');
-    }
-
-    /**
      * @param mixed $cardOwner
      */
     public function setCardOwner($cardOwner)
@@ -211,6 +214,54 @@ class CreateCustomerRequest extends AbstractRequest
     public function getCardOwner()
     {
         return $this->getParameter('cardOwner');
+    }
+
+    /**
+     * @param mixed $firstName
+     */
+    public function setFirstName($firstName)
+    {
+        $this->setParameter('firstName', $firstName);
+    }
+
+    /**
+     * @return string
+     */
+    public function getFirstName()
+    {
+        return $this->getParameter('firstName');
+    }
+
+    /**
+     * @param mixed $lastName
+     */
+    public function setLastName($lastName)
+    {
+        $this->setParameter('lastName', $lastName);
+    }
+
+    /**
+     * @return string
+     */
+    public function getLastName()
+    {
+        return $this->getParameter('lastName');
+    }
+
+    /**
+     * @param mixed $birthday
+     */
+    public function setBirthday($birthday)
+    {
+        $this->setParameter('birthday', $birthday);
+    }
+
+    /**
+     * @return string
+     */
+    public function getBirthday()
+    {
+        return $this->getParameter('birthday');
     }
 
     /**
@@ -229,9 +280,9 @@ class CreateCustomerRequest extends AbstractRequest
 
         $data = [
             'ownId'             => $this->getCustomerOwnId(),
-            'fullname'          => $card->getFirstName().' '.$card->getLastName(),
+            'fullname'          => $this->getFirstName().' '.$this->getLastName(),
             'email'             => $card->getEmail(),
-            'birthDate'         => $card->getBirthday(),
+            'birthDate'         => $this->getBirthday(),
             'taxDocument'       => $this->getTaxDocumentParams(),
             'phone'             => $this->getPhoneParams($card),
             'shippingAddress'   => $this->getShippingParams($card),
@@ -239,10 +290,6 @@ class CreateCustomerRequest extends AbstractRequest
 
         if($this->getCardOwner()) {
             $data['fundingInstrument'] = $this->getFundingInstrumentData();
-        }
-
-        if($this->getPaymentMethod() == 'CREDIT_CARD') {
-            $data['installmentCount'] = ($this->getInstallmentCount()) ? $this->getInstallmentCount() : 1;
         }
 
         return $data;
@@ -306,13 +353,15 @@ class CreateCustomerRequest extends AbstractRequest
     }
 
     /**
+     * @param bool $billing
+     *
      * @return array
      */
-    public function getTaxDocumentParams()
+    public function getTaxDocumentParams($billing = false)
     {
         return [
             'type'   => ($this->getTaxDocumentType()) ? $this->getTaxDocumentType() : 'CPF',
-            'number' => $this->getTaxDocumentNumber(),
+            'number' => ($billing) ? $this->getBillingTaxDocumentNumber() : $this->getTaxDocumentNumber(),
         ];
     }
 
@@ -346,7 +395,7 @@ class CreateCustomerRequest extends AbstractRequest
             $cardData['holder'] = [
                 'fullname'       => $card->getFirstName().' '.$card->getLastName(),
                 'birthdate'      => $card->getBirthday(),
-                'taxDocument'    => $this->getTaxDocumentParams(),
+                'taxDocument'    => $this->getTaxDocumentParams(true),
                 'billingAddress' => $this->getBillingParams($card),
                 'phone'          => $this->getPhoneParams($card),
             ];

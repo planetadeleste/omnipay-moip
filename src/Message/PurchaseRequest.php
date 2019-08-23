@@ -26,13 +26,14 @@ class PurchaseRequest extends CreateOrderRequest
         /** @var \Omnipay\Common\Item $item */
 
         $this->validate('orderReference');
-//        $this->getCard()->validate();
 
         $data = [
-//            'ownId'             => $this->getOrderOwnId(),
             'fundingInstrument' => $this->getFundingInstrumentData(),
-//            'amount'            => ['currency' => $this->getCurrency()]
         ];
+
+        if($this->getPaymentMethod() == 'CREDIT_CARD') {
+            $data['installmentCount'] = ($this->getInstallmentCount()) ? $this->getInstallmentCount() : 1;
+        }
 
         $data['items'] = [];
         $items = $this->getItems();
