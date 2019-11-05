@@ -345,10 +345,18 @@ class CreateCustomerRequest extends AbstractRequest
      */
     public function getPhoneParams($card)
     {
+        $phone = $card->getPhone();
+        if(!$this->getAreaCode()) {
+            $areaCode = substr($phone, 0, 2);
+            $phone    = substr($phone, 2);
+        } else {
+            $areaCode = $this->getAreaCode();
+        }
+
         return [
-            'countryCode' => '55',
-            'areaCode'    => $this->getAreaCode(),
-            'number'      => $card->getPhone(),
+            'countryCode' => 55,
+            'areaCode'    => $areaCode,
+            'number'      => $phone,
         ];
     }
 
