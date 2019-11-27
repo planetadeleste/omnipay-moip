@@ -39,6 +39,16 @@ class CreateOrderRequest extends CreateCustomerRequest
         return $this->getParameter('installmentCount');
     }
 
+    public function setDiscount($value)
+    {
+        $this->setParameter('discount', $value);
+    }
+
+    public function getDiscount()
+    {
+        return $this->getParameter('discount');
+    }
+
     /**
      * Get the raw data array for this message. The format of this varies from gateway to
      * gateway, but will usually be either an associative array, or a SimpleXMLElement.
@@ -94,10 +104,14 @@ class CreateOrderRequest extends CreateCustomerRequest
             $total = floatval( $total / 100 );
             $addition = PriceHelper::addition($installment, $total);
             if($addition) {
-                $data['amount']['subtotals'] = [
-                    'addition' => intval($addition * 100)
-                ];
+                array_set($data, 'amount.subtotals.addition', intval($addition * 100));
             }
+        }
+
+        // Discount
+        $discount = $this->getDiscount();
+        if($discount) {
+            array_set($data, 'amount.subtotals.discount', $discount);
         }
 
         return $data;
