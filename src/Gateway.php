@@ -1,10 +1,14 @@
-<?php
-
-namespace Omnipay\Moip;
-
+<?php namespace Omnipay\Moip;
 
 use Omnipay\Common\AbstractGateway;
 use Omnipay\Common\Message\RequestInterface;
+use Omnipay\Moip\Message\AuthorizeRequest;
+use Omnipay\Moip\Message\CreateCustomerRequest;
+use Omnipay\Moip\Message\CreateNotifyRequest;
+use Omnipay\Moip\Message\CreateOrderRequest;
+use Omnipay\Moip\Message\ListWebhooksRequest;
+use Omnipay\Moip\Message\PurchaseRequest;
+use Omnipay\Moip\Message\ResendWebhooksRequest;
 
 /**
  * @method RequestInterface completeAuthorize(array $options = [])
@@ -109,7 +113,7 @@ class Gateway extends AbstractGateway
      */
     public function authorize(array $parameters = [])
     {
-        return $this->createRequest('\Omnipay\Moip\Message\AuthorizeRequest', $parameters);
+        return $this->createRequest(AuthorizeRequest::class, $parameters);
     }
 
     /**
@@ -119,7 +123,7 @@ class Gateway extends AbstractGateway
      */
     public function purchase($parameters = [])
     {
-        return $this->createRequest('\Omnipay\Moip\Message\PurchaseRequest', $parameters);
+        return $this->createRequest(PurchaseRequest::class, $parameters);
     }
 
     /**
@@ -129,7 +133,7 @@ class Gateway extends AbstractGateway
      */
     public function createCustomer($parameters = [])
     {
-        return $this->createRequest('\Omnipay\Moip\Message\CreateCustomerRequest', $parameters);
+        return $this->createRequest(CreateCustomerRequest::class, $parameters);
     }
 
     /**
@@ -139,7 +143,7 @@ class Gateway extends AbstractGateway
      */
     public function createOrder($parameters = [])
     {
-        return $this->createRequest('\Omnipay\Moip\Message\CreateOrderRequest', $parameters);
+        return $this->createRequest(CreateOrderRequest::class, $parameters);
     }
 
     /**
@@ -149,7 +153,7 @@ class Gateway extends AbstractGateway
      */
     public function createNotify($parameters = [])
     {
-        return $this->createRequest('\Omnipay\Moip\Message\CreateNotifyRequest', $parameters);
+        return $this->createRequest(CreateNotifyRequest::class, $parameters);
     }
 
     /**
@@ -159,7 +163,27 @@ class Gateway extends AbstractGateway
      */
     public function customer($parameters = [])
     {
-        return $this->createRequest('\Omnipay\Moip\Message\GetCustomerRequest', $parameters);
+        return $this->createRequest(CreateCustomerRequest::class, $parameters);
+    }
+
+    /**
+     * @param array $parameters
+     *
+     * @return \Omnipay\Moip\Message\ListWebhooksRequest|\Omnipay\Common\Message\AbstractRequest
+     */
+    public function listWebhooks($parameters = [])
+    {
+        return $this->createRequest(ListWebhooksRequest::class, $parameters);
+    }
+
+    /**
+     * @param array $parameters
+     *
+     * @return ResendWebhooksRequest|\Omnipay\Common\Message\AbstractRequest
+     */
+    public function resendWebhooks($parameters = [])
+    {
+        return $this->createRequest(ResendWebhooksRequest::class, $parameters);
     }
 
     public function __call($name, $arguments)

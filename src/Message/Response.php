@@ -1,64 +1,29 @@
-<?php
+<?php namespace Omnipay\Moip\Message;
 
-namespace Omnipay\Moip\Message;
-
-
-
+/**
+ * Class Response
+ *
+ * @property-read null|string $id
+ * @property-read null|string $target
+ * @property-read null|string $token
+ * @property-read null|string $events
+ * @property-read null|string $status
+ *
+ * @method null|mixed getId($default = null)
+ * @method null|mixed getTarget($default = null)
+ * @method null|mixed getToken($default = null)
+ * @method null|mixed getEvents($default = null)
+ * @method null|mixed getStatus($default = null)
+ *
+ * @package Omnipay\Moip\Message
+ */
 class Response extends ResponseBase
 {
 
     public function getTransactionId()
     {
-        if(isset($this->data['id'])) {
-            return (strtoupper( substr($this->data['id'], 0, 3) ) == 'PAY') ? $this->data['id'] : null;
-        }
-
-        return null;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getId()
-    {
-        if(isset($this->data['id'])) {
-            return $this->data['id'];
-        }
-
-        return null;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getTarget()
-    {
-        if(isset($this->data['target'])) {
-            return $this->data['target'];
-        }
-
-        return null;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getToken()
-    {
-        if(isset($this->data['token'])) {
-            return $this->data['token'];
-        }
-
-        return null;
-    }
-
-    /**
-     * @return array|null
-     */
-    public function getEvents()
-    {
-        if(isset($this->data['events'])) {
-            return $this->data['events'];
+        if (isset($this->data['id'])) {
+            return (strtoupper(substr($this->data['id'], 0, 3)) == 'PAY') ? $this->data['id'] : null;
         }
 
         return null;
@@ -71,10 +36,10 @@ class Response extends ResponseBase
      */
     public function getCustomerReference()
     {
-        if(isset($this->data['customer']) && array_key_exists('id', $this->data['customer'])) {
+        if (isset($this->data['customer']) && array_key_exists('id', $this->data['customer'])) {
             return $this->data['customer']['id'];
         } elseif (isset($this->data['id'])) {
-            return (strtoupper( substr($this->data['id'], 0, 3) ) == 'CUS') ? $this->data['id'] : null;
+            return (strtoupper(substr($this->data['id'], 0, 3)) == 'CUS') ? $this->data['id'] : null;
         }
 
         return null;
@@ -87,19 +52,11 @@ class Response extends ResponseBase
      */
     public function getOrderReference()
     {
-        if(isset($this->data['id'])) {
-            return (strtoupper( substr($this->data['id'], 0, 3) ) == 'ORD') ? $this->data['id'] : null;
+        if (isset($this->data['id'])) {
+            return (strtoupper(substr($this->data['id'], 0, 3)) == 'ORD') ? $this->data['id'] : null;
         }
 
         return null;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getStatus()
-    {
-        return isset($this->data['status']) ? $this->data['status'] : null;
     }
 
     /**
