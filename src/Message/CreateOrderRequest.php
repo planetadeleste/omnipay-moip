@@ -39,6 +39,19 @@ class CreateOrderRequest extends CreateCustomerRequest
         return $this->getParameter('installmentCount');
     }
 
+    /**
+     * @param int $value
+     */
+    public function setAddition($value)
+    {
+        $this->setParameter('addition', $value);
+    }
+
+    public function getAddition()
+    {
+        return $this->getParameter('addition');
+    }
+
     public function setDiscount($value)
     {
         $this->setParameter('discount', $value);
@@ -47,6 +60,16 @@ class CreateOrderRequest extends CreateCustomerRequest
     public function getDiscount()
     {
         return $this->getParameter('discount');
+    }
+
+    public function setShipping($value)
+    {
+        $this->setParameter('shipping', $value);
+    }
+
+    public function getShipping()
+    {
+        return $this->getParameter('shipping');
     }
 
     /**
@@ -60,7 +83,6 @@ class CreateOrderRequest extends CreateCustomerRequest
     public function getData()
     {
         /** @var \Omnipay\Common\Item $item */
-
         $this->validate('amount', 'currency', 'items');
 
         $data = [
@@ -72,7 +94,7 @@ class CreateOrderRequest extends CreateCustomerRequest
             'customer' => []
         ];
 
-        if($this->getCustomerId()) {
+        if ($this->getCustomerId()) {
             $data['customer']['id'] = $this->getCustomerId();
         } elseif ($this->getCustomerReference()) {
             $data['customer']['id'] = $this->getCustomerReference();
@@ -80,12 +102,12 @@ class CreateOrderRequest extends CreateCustomerRequest
             $data['customer'] = parent::getData();
         }
 
-        if(array_key_exists('fundingInstrument', $data['customer'])) {
+        if (array_key_exists('fundingInstrument', $data['customer'])) {
             unset($data['customer']['fundingInstrument']);
         }
 
         $items = $this->getItems();
-        $total = 0;
+//        $total = 0;
         if ($items) {
             foreach ($items as $item) {
                 $dataItem = [
@@ -95,22 +117,32 @@ class CreateOrderRequest extends CreateCustomerRequest
                     'price'    => $item->getPrice()
                 ];
                 $data['items'][] = $dataItem;
-                $total += $item->getPrice();
+//                $total += $item->getPrice();
             }
         }
 
-        $installment = $this->getInstallmentCount();
-        if($installment > 1 && $total) {
-            $total = floatval( $total / 100 );
-            $addition = PriceHelper::addition($installment, $total);
-            if($addition) {
-                array_set($data, 'amount.subtotals.addition', intval($addition * 100));
-            }
+        $fShipping = $this->getShipping();
+        if ($fShipping) {
+            array_set($data, 'amount.subtotals.shipping', $fShipping);
+//            $total += $fShipping;
         }
+
+        if ($fAddition = $this->getAddition()) {
+            array_set($data, 'amount.subtotals.addition', intval($fAddition * 100));
+        }
+
+//        $installment = $this->getInstallmentCount();
+//        if ($installment > 1 && $total) {
+//            $total = floatval($total / 100);
+//            $addition = PriceHelper::addition($total, $installment);
+//            if ($addition) {
+//                array_set($data, 'amount.subtotals.addition', intval($addition * 100));
+//            }
+//        }
 
         // Discount
         $discount = $this->getDiscount();
-        if($discount) {
+        if ($discount) {
             array_set($data, 'amount.subtotals.discount', $discount);
         }
 
