@@ -7,6 +7,7 @@ use Omnipay\Moip\Message\CreateCustomerRequest;
 use Omnipay\Moip\Message\CreateNotifyRequest;
 use Omnipay\Moip\Message\CreateOrderRequest;
 use Omnipay\Moip\Message\GetCustomerRequest;
+use Omnipay\Moip\Message\ListNotifyRequest;
 use Omnipay\Moip\Message\ListWebhooksRequest;
 use Omnipay\Moip\Message\PurchaseRequest;
 use Omnipay\Moip\Message\ResendWebhooksRequest;
@@ -175,6 +176,16 @@ class Gateway extends AbstractGateway
     public function listWebhooks($parameters = [])
     {
         return $this->createRequest(ListWebhooksRequest::class, $parameters);
+    }
+
+    /**
+     * @param array $parameters
+     *
+     * @return \Omnipay\Common\Message\AbstractRequest|ListNotifyRequest
+     */
+    public function listNotify($parameters = [])
+    {
+        return $this->createRequest(ListNotifyRequest::class, $parameters);
     }
 
     /**
