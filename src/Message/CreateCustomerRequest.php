@@ -395,7 +395,7 @@ class CreateCustomerRequest extends AbstractRequest
         return $data;
     }
 
-    protected function getCardData()
+    protected function getCardData(): array
     {
         $card = $this->getCard();
         $cardData = parent::getCardData();
@@ -412,7 +412,7 @@ class CreateCustomerRequest extends AbstractRequest
         return $cardData;
     }
 
-    protected function getEndpoint()
+    protected function getEndpoint(): string
     {
         return parent::getEndpoint().'/customers';
     }

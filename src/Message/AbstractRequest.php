@@ -31,7 +31,7 @@ abstract class AbstractRequest extends BaseAbstractRequest
      *
      * @param string $apiKey
      */
-    public function setApiKey($apiKey)
+    public function setApiKey(string $apiKey)
     {
         $this->setParameter('apiKey', $apiKey);
     }
@@ -41,7 +41,7 @@ abstract class AbstractRequest extends BaseAbstractRequest
      *
      * @return string $apiKey
      */
-    public function getApiKey()
+    public function getApiKey(): string
     {
         return $this->getParameter('apiKey');
     }
@@ -55,21 +55,21 @@ abstract class AbstractRequest extends BaseAbstractRequest
     public function sendData($data)
     {
         $this->validate('apiKey', 'token');
-        $this->addListener4xxErrors();
+//        $this->addListener4xxErrors();
 
         $headers = [
             'Authorization' => 'Basic '.base64_encode($this->getToken().':'.$this->getApiKey()),
             'Content-Type'  => 'application/json'
         ];
-        $httpRequest = $this->httpClient->createRequest(
+        $httpResponse = $this->httpClient->request(
             $this->getHttpMethod(),
             $this->getEndpoint(),
             $headers,
             json_encode($data)
         );
+        $sResponse = $httpResponse->getBody()->getContents();
 
-        $httpResponse = $httpRequest->send();
-        return $this->createResponse($httpResponse->json());
+        return $this->createResponse(json_decode($sResponse, true));
     }
 
     /**
@@ -77,7 +77,7 @@ abstract class AbstractRequest extends BaseAbstractRequest
      *
      * @return string
      */
-    protected function getEndpoint()
+    protected function getEndpoint(): string
     {
         return $this->getTestMode() ? $this->getTestEndpoint() : $this->getLiveEndpoint();
     }
@@ -99,7 +99,7 @@ abstract class AbstractRequest extends BaseAbstractRequest
      *
      * @return string the HTTP method
      */
-    protected function getHttpMethod()
+    protected function getHttpMethod(): string
     {
         return 'POST';
     }
@@ -109,7 +109,7 @@ abstract class AbstractRequest extends BaseAbstractRequest
      *
      * @return string
      */
-    private function getLiveEndpoint()
+    private function getLiveEndpoint(): string
     {
         return $this->liveEndpoint;
     }
@@ -119,7 +119,7 @@ abstract class AbstractRequest extends BaseAbstractRequest
      *
      * @return string
      */
-    private function getTestEndpoint()
+    private function getTestEndpoint(): string
     {
         return $this->testEndpoint;
     }
@@ -127,9 +127,9 @@ abstract class AbstractRequest extends BaseAbstractRequest
     /**
      * Get the customer reference.
      *
-     * @return string
+     * @return string|null
      */
-    public function getCustomerReference()
+    public function getCustomerReference():? string
     {
         return $this->getParameter('customerReference');
     }
@@ -144,7 +144,7 @@ abstract class AbstractRequest extends BaseAbstractRequest
      *
      * @return \Omnipay\Common\Message\AbstractRequest
      */
-    public function setCustomerReference($value)
+    public function setCustomerReference($value): BaseAbstractRequest
     {
         return $this->setParameter('customerReference', $value);
     }
@@ -154,7 +154,7 @@ abstract class AbstractRequest extends BaseAbstractRequest
      *
      * @return string
      */
-    public function getOrderReference()
+    public function getOrderReference():? string
     {
         return $this->getParameter('orderReference');
     }
@@ -166,7 +166,7 @@ abstract class AbstractRequest extends BaseAbstractRequest
      *
      * @return \Omnipay\Common\Message\AbstractRequest
      */
-    public function setOrderReference($value)
+    public function setOrderReference($value): BaseAbstractRequest
     {
         return $this->setParameter('orderReference', $value);
     }
@@ -186,7 +186,7 @@ abstract class AbstractRequest extends BaseAbstractRequest
      *
      * @return string
      */
-    public function getCardHash()
+    public function getCardHash():? string
     {
         return $this->getParameter('cardHash');
     }
@@ -206,7 +206,7 @@ abstract class AbstractRequest extends BaseAbstractRequest
      *
      * @return string
      */
-    public function getCardId()
+    public function getCardId():? string
     {
         return $this->getParameter('cardId');
     }
@@ -226,7 +226,7 @@ abstract class AbstractRequest extends BaseAbstractRequest
      *
      * @return string
      */
-    public function getCardCvc()
+    public function getCardCvc():? string
     {
         return $this->getParameter('cardCvc');
     }
@@ -242,7 +242,7 @@ abstract class AbstractRequest extends BaseAbstractRequest
     /**
      * @return string
      */
-    public function getExpirationDate()
+    public function getExpirationDate():? string
     {
         return $this->getParameter('expirationDate');
     }
@@ -258,7 +258,7 @@ abstract class AbstractRequest extends BaseAbstractRequest
     /**
      * @return string
      */
-    public function getInstructionLinesFirst()
+    public function getInstructionLinesFirst():? string
     {
         return $this->getParameter('instructionLinesFirst');
     }
@@ -274,7 +274,7 @@ abstract class AbstractRequest extends BaseAbstractRequest
     /**
      * @return string
      */
-    public function getInstructionLinesSecond()
+    public function getInstructionLinesSecond():? string
     {
         return $this->getParameter('instructionLinesSecond');
     }
@@ -290,7 +290,7 @@ abstract class AbstractRequest extends BaseAbstractRequest
     /**
      * @return string
      */
-    public function getInstructionLinesThird()
+    public function getInstructionLinesThird():? string
     {
         return $this->getParameter('instructionLinesThird');
     }
@@ -307,7 +307,7 @@ abstract class AbstractRequest extends BaseAbstractRequest
      * @throws \Omnipay\Common\Exception\InvalidCreditCardException
      * @throws \Omnipay\Common\Exception\InvalidRequestException
      */
-    protected function getCardData()
+    protected function getCardData(): array
     {
         $data = [];
         if($this->getCardHash()) {
@@ -340,7 +340,11 @@ abstract class AbstractRequest extends BaseAbstractRequest
         return $data;
     }
 
-    public function getBoletoData()
+    /**
+     * @return array
+     * @throws \Omnipay\Common\Exception\InvalidRequestException
+     */
+    public function getBoletoData(): array
     {
         $this->validate('expirationDate', 'instructionLinesFirst');
         $data = [];
@@ -364,13 +368,13 @@ abstract class AbstractRequest extends BaseAbstractRequest
      */
     private function addListener4xxErrors()
     {
-        $this->httpClient->getEventDispatcher()->addListener(
-            'request.error',
-            function ($event) {
-                if ($event['response']->isClientError()) {
-                    $event->stopPropagation();
-                }
-            }
-        );
+//        $this->httpClient->getEventDispatcher()->addListener(
+//            'request.error',
+//            function ($event) {
+//                if ($event['response']->isClientError()) {
+//                    $event->stopPropagation();
+//                }
+//            }
+//        );
     }
 }

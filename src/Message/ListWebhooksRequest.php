@@ -20,7 +20,7 @@ class ListWebhooksRequest extends AbstractRequest
     /**
      * @return string
      */
-    protected function getEndpoint()
+    protected function getEndpoint(): string
     {
         return parent::getEndpoint() . '/webhooks';
     }
@@ -28,7 +28,7 @@ class ListWebhooksRequest extends AbstractRequest
     /**
      * @return string
      */
-    protected function getHttpMethod()
+    protected function getHttpMethod(): string
     {
         return 'GET';
     }

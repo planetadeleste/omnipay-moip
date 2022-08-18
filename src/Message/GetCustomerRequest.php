@@ -34,7 +34,7 @@ class GetCustomerRequest extends AbstractRequest
     /**
      * @return string
      */
-    protected function getHttpMethod()
+    protected function getHttpMethod(): string
     {
         return 'GET';
     }
@@ -42,7 +42,7 @@ class GetCustomerRequest extends AbstractRequest
     /**
      * @return string
      */
-    protected function getEndpoint()
+    protected function getEndpoint(): string
     {
         return parent::getEndpoint().'/customers/' . $this->getCustomerId();
     }
@@ -50,7 +50,7 @@ class GetCustomerRequest extends AbstractRequest
     /**
      * @param $data
      *
-     * @return \Omnipay\Moip\Message\Response|\Omnipay\Moip\Message\ResponseCustomer
+     * @return \Omnipay\Moip\Message\ResponseCustomer
      */
     protected function createResponse($data)
     {

@@ -1,6 +1,7 @@
 <?php namespace Omnipay\Moip;
 
 use Omnipay\Common\AbstractGateway;
+use Omnipay\Common\Message\AbstractRequest;
 use Omnipay\Common\Message\RequestInterface;
 use Omnipay\Moip\Message\AuthorizeRequest;
 use Omnipay\Moip\Message\CreateCustomerRequest;
@@ -24,7 +25,7 @@ use Omnipay\Moip\Message\ResendWebhooksRequest;
  */
 class Gateway extends AbstractGateway
 {
-    public function getDefaultParameters()
+    public function getDefaultParameters(): array
     {
         return [
             'token'    => '',
@@ -40,7 +41,7 @@ class Gateway extends AbstractGateway
      *
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return 'Moip';
     }
@@ -60,7 +61,7 @@ class Gateway extends AbstractGateway
      *
      * @return string
      */
-    public function getToken()
+    public function getToken(): string
     {
         return $this->getParameter('token');
     }
@@ -80,7 +81,7 @@ class Gateway extends AbstractGateway
      *
      * @return string $apiKey
      */
-    public function getApiKey()
+    public function getApiKey(): string
     {
         return $this->getParameter('apiKey');
     }
@@ -100,7 +101,7 @@ class Gateway extends AbstractGateway
      *
      * @return string $ownId
      */
-    public function getOwnId()
+    public function getOwnId(): string
     {
         return $this->getParameter('ownId');
     }
@@ -109,93 +110,93 @@ class Gateway extends AbstractGateway
     /**
      * Create request for to consume service
      *
-     * @param array $parameters
+     * @param array $options
      *
      * @return \Omnipay\Common\Message\AbstractRequest
      */
-    public function authorize(array $parameters = [])
+    public function authorize(array $options = []): AbstractRequest
     {
-        return $this->createRequest(AuthorizeRequest::class, $parameters);
+        return $this->createRequest(AuthorizeRequest::class, $options);
     }
 
     /**
-     * @param array $parameters
+     * @param array $options
      *
      * @return \Omnipay\Common\Message\AbstractRequest|\Omnipay\Common\Message\RequestInterface
      */
-    public function purchase($parameters = [])
+    public function purchase(array $options = [])
     {
-        return $this->createRequest(PurchaseRequest::class, $parameters);
+        return $this->createRequest(PurchaseRequest::class, $options);
     }
 
     /**
-     * @param array $parameters
+     * @param array $options
      *
      * @return \Omnipay\Common\Message\AbstractRequest
      */
-    public function createCustomer($parameters = [])
+    public function createCustomer(array $options = []): AbstractRequest
     {
-        return $this->createRequest(CreateCustomerRequest::class, $parameters);
+        return $this->createRequest(CreateCustomerRequest::class, $options);
     }
 
     /**
-     * @param array $parameters
+     * @param array $options
      *
      * @return \Omnipay\Common\Message\AbstractRequest
      */
-    public function createOrder($parameters = [])
+    public function createOrder(array $options = []): AbstractRequest
     {
-        return $this->createRequest(CreateOrderRequest::class, $parameters);
+        return $this->createRequest(CreateOrderRequest::class, $options);
     }
 
     /**
-     * @param array $parameters
+     * @param array $options
      *
      * @return \Omnipay\Common\Message\AbstractRequest
      */
-    public function createNotify($parameters = [])
+    public function createNotify(array $options = []): AbstractRequest
     {
-        return $this->createRequest(CreateNotifyRequest::class, $parameters);
+        return $this->createRequest(CreateNotifyRequest::class, $options);
     }
 
     /**
-     * @param array $parameters
+     * @param array $options
      *
-     * @return \Omnipay\Moip\Message\GetCustomerRequest|\Omnipay\Common\Message\AbstractRequest
+     * @return \Omnipay\Common\Message\AbstractRequest
      */
-    public function customer($parameters = [])
+    public function customer(array $options = []): AbstractRequest
     {
-        return $this->createRequest(GetCustomerRequest::class, $parameters);
+        return $this->createRequest(GetCustomerRequest::class, $options);
     }
 
     /**
-     * @param array $parameters
+     * @param array $options
      *
-     * @return \Omnipay\Moip\Message\ListWebhooksRequest|\Omnipay\Common\Message\AbstractRequest
+     * @return \Omnipay\Common\Message\AbstractRequest
      */
-    public function listWebhooks($parameters = [])
+    public function listWebhooks(array $options = []): AbstractRequest
     {
-        return $this->createRequest(ListWebhooksRequest::class, $parameters);
+        return $this->createRequest(ListWebhooksRequest::class, $options);
     }
 
     /**
-     * @param array $parameters
+     * @param array $options
      *
-     * @return \Omnipay\Common\Message\AbstractRequest|ListNotifyRequest
+     * @return \Omnipay\Common\Message\AbstractRequest
      */
-    public function listNotify($parameters = [])
+    public function listNotify(array $options = []): AbstractRequest
     {
-        return $this->createRequest(ListNotifyRequest::class, $parameters);
+        return $this->createRequest(ListNotifyRequest::class, $options);
     }
 
     /**
-     * @param array $parameters
+     * @param array $options
      *
-     * @return ResendWebhooksRequest|\Omnipay\Common\Message\AbstractRequest
+     * @return \Omnipay\Common\Message\AbstractRequest
      */
-    public function resendWebhooks($parameters = [])
+    public function resendWebhooks(array $options = []): AbstractRequest
     {
-        return $this->createRequest(ResendWebhooksRequest::class, $parameters);
+        return $this->createRequest(ResendWebhooksRequest::class, $options);
     }
 
     public function __call($name, $arguments)

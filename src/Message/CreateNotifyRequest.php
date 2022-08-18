@@ -220,7 +220,7 @@ class CreateNotifyRequest extends AbstractRequest
         $this->setEvents('PAYMENT.SETTLED', $push);
     }
 
-    protected function getEndpoint()
+    protected function getEndpoint(): string
     {
         return parent::getEndpoint().'/preferences/notifications';
     }

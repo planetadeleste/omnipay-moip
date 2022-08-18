@@ -52,7 +52,7 @@ class ResendWebhooksRequest extends AbstractRequest
     /**
      * @return string
      */
-    protected function getEndpoint()
+    protected function getEndpoint(): string
     {
         return parent::getEndpoint().'/webhooks';
     }

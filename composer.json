@@ -1,6 +1,6 @@
 {
     "name": "planetadeleste/omnipay-moip",
-    "description": "MOIP payment gateway driver for the Omnipay 2.x payment processing library",
+    "description": "MOIP payment gateway driver for the Omnipay 3.x payment processing library",
     "type": "library",
     "minimum-stability": "dev",
     "license": "MIT",
@@ -31,10 +31,10 @@
     ],
     "require": {
         "php": ">=5.4",
-        "omnipay/common": "~2.3"
+        "league/omnipay": "^3.0"
     },
     "require-dev": {
-        "omnipay/tests": "~2.0"
+        "omnipay/tests": "~3.0"
     },
     "autoload": {
         "psr-4": {

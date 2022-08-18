@@ -53,7 +53,7 @@ class PurchaseRequest extends CreateOrderRequest
         return $data;
     }
 
-    protected function getEndpoint()
+    protected function getEndpoint(): string
     {
         return parent::getEndpoint().'/'.$this->getOrderReference().'/payments';
     }
